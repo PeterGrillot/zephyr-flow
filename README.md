@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZephyrFlow - Setup and Development
 
-## Getting Started
+## Prerequisites
 
-First, run the development server:
+- Docker and Docker Compose installed
+
+## Steps to Build and Seed Data
+
+**Build Docker images (if not already built):**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose build && docker compose up -d
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Access the running app container:**
+Replace `<container-name>` with your app container name (e.g., `zephyrflow_app_1`):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+docker ps
+docker exec -it zephyrflow_app_1 bash
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Run Prisma migration (inside the app container):**
 
-## Learn More
+```bash
+npx prisma migrate dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Run your seed script (inside the app container):**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run seed
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Access the running db container:**
+Replace `<container-name>` with your app container name (e.g., `zephyrflow_postgres_1`):
 
-## Deploy on Vercel
+```bash
+docker ps
+docker exec -it zephyrflow_postgres_1 bash
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**(Optional) Access PostgreSQL CLI:**
+Inside the container, run:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+psql -U postgres
+```
+
+```
+docker compose build && docker compose up -d
+
+
+```
+
+### Adding route and qwuery
+
+https://en.wind-turbine-models.com/
+
+Adding a Relational
+
+```js
+// src/app/api/graphql/resolvers.ts
+export const resolvers = {
+  Query: {
+    turbines: async () => {
+      return await prisma.turbine.findMany({
+        include: {
+          serialId: {
+            select: {
+              manufacturerName: true,
+              modelName: true,
+              ratedPower: true, // Add Here
+            },
+          },
+        },
+      });
+    },
+    manufacturers: async () => await prisma.manufacturer.findMany(),
+    turbine: async (_: unknown, { id }: { id: string }) =>
+      await prisma.turbine.findUnique({ where: { id: id } }),
+  },
+};
+```
+
+then add at you query on page
+
+If adding a query, add to api:
+
+```js
+// /src/app/api/graphql/route.ts
+const GET_TURBINES_AND_MANUFACTURERS = gql`
+  query GetTurbinesAndManufacturers {
+    turbines {
+      id
+      manufacturerSerialId
+      location
+      lastMaintenance
+      status
+      powerOutput
+      serialId {
+        manufacturerName
+        modelName
+        ratedPower // Add here
+      }
+    }
+  }
+`;
+```

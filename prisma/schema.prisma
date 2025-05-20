@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+model Turbine {
+  id                   String       @id @default(uuid())
+  serialId             Manufacturer @relation(references: [manufacturerSerialId], fields: [manufacturerSerialId]) // Foreign key relation
+  location             String
+  installationDate     DateTime     @map("Installation Date")
+  lastMaintenance      DateTime     @map("Last Maintenance")
+  nextMaintenance      DateTime     @map("Next Maintenance Due")
+  status               String
+  powerOutput          Int          @map("Power Output (kW)")
+  issueReported        String?      @map("Issue Reported")
+  technicianAssigned   String?      @map("Technician Assigned")
+  manufacturerSerialId String
+
+  @@map("turbine")
+}
+
+model Manufacturer {
+  manufacturerSerialId String    @id @map("Manufacturer Serial ID")
+  manufacturerName     String    @map("Manufacturer Name")
+  modelName            String    @map("Model Name")
+  country              String    @map("Country")
+  description          String?   @map("Description")
+  ratedPower           Int       @map("Rated Power (kW)")
+  offshore             Boolean   @map("Offshore")
+  onshore              Boolean   @map("Onshore")
+  Turbine              Turbine[]
+
+  @@map("manufacturer")
+}

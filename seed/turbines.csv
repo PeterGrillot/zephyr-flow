@@ -1,0 +1,8 @@
+Manufacturer Serial ID,Location,Installation Date,Last Maintenance,Next Maintenance,Status,Power Output (kW),Issue Reported,Technician Assigned
+AAER_A1500-70,"37.7749° N,122.4194° W",2019-06-15T00:00:00.000Z,2024-01-10T00:00:00.000Z,2024-07-10T00:00:00.000Z,Operational,1500,,John Doe
+REpower_MD70,"36.7783° N,119.4179° W",2020-08-20T00:00:00.000Z,2024-02-15T00:00:00.000Z,2024-08-15T00:00:00.000Z,Maintenance Required,1200,Low power output,Jane Smith
+AAER_A1500-70,"35.6895° N,139.6917° E",2018-05-12,2023-12-05,2024-06-05,Operational,200,,Chris Johnson
+Aeolos_Aeolos-H,"34.0522° N,118.2437° W",2021-03-30,2024-03-01,2024-09-01,Offline,0,Broken blade,Michael Brown
+REpower_MD70,"40.7128° N,74.0060° W",2017-11-22,2024-04-18,2024-10-18,Operational,1000,,Sarah Lee
+Acciona_AW-70-1500,"40.7128° N,74.0060° W",2017-11-22,2024-04-18,2024-10-18,Operational,800,,Sarah Lee
+Advanced_Wind_Turbines_AWT-27,"40.7128° N,74.0060° W",2017-11-22,2024-04-18,2024-10-18,Operational,10,,Sarah Lee
