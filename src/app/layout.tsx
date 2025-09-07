@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ApolloProvider client={client}>
-          <Theme accentColor="green">
+          <Theme accentColor="green" appearance="dark" radius="none">
             <Box p="4">
               <Navigation />
               {children}
