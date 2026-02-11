@@ -1,13 +1,14 @@
 "use client";
 
 import "@radix-ui/themes/styles.css";
+import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
 
 import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apolloClient";
 import { Box, Theme } from "@radix-ui/themes";
 import Navigation from "@/components/navigation";
-
+import TurbineStatusPie from "@/components/dataviz/statusPie";
 export default function RootLayout({
   children,
 }: {
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <ApolloProvider client={client}>
           <Theme
+            appearance="dark"
             accentColor="teal"
             grayColor="mauve"
             radius="small"
@@ -25,6 +27,7 @@ export default function RootLayout({
           >
             <Box p="4">
               <Navigation />
+              <TurbineStatusPie />
               {children}
             </Box>
           </Theme>

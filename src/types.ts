@@ -16,6 +16,7 @@ export enum TurbineStatus {
 }
 
 export interface Turbine {
+  id: string;
   turbineId: string;
   manufacturerSerialId: string;
   location: string;

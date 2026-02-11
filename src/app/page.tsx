@@ -22,6 +22,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import Loader from "@/components/loader";
 import Status from "@/components/status";
+import TurbineStatusPie from "@/components/dataviz/statusPie";
 
 const GET_TURBINES_AND_MANUFACTURERS = gql`
   query GetTurbinesAndManufacturers {
