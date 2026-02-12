@@ -1,5 +1,9 @@
 # ZephyrFlow - Setup and Development
 
+ZephyrFlow is a full-stack wind turbine maintenance tracking application built with Next.js, React, GraphQL, and PostgreSQL. The app demonstrates modern architecture patterns including containerized development with Docker, API design with GraphQL, and interactive data visualization using Recharts. It models real-world operational workflows, allowing users to manage turbine data, monitor performance metrics, and visualize trends through dynamic dashboards.
+
+![ZephyrFlow](./zf.png?raw=true "ZephyrFlow")
+
 ## Prerequisites
 
 - Docker and Docker Compose installed
