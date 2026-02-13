@@ -3,8 +3,8 @@ import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import React from "react";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-const COLORS = ["#4CAF50", "#F59E0B", "#9CA3AF", "#EF4444"];
-
+const COLORS = ["#30a46c", "#e8bb6e", "#dce0e6", "#EF4444"];
+const PIE_HEIGHT = 260;
 const GET_TURNBINE_STATUS_AND_OUTPUT = gql`
   query GetTurbineStatusAndOutput {
     turbines {
@@ -46,18 +46,19 @@ export default function TurbineStatusPie() {
     >
       <Card
         variant="surface"
-        className="flex flex-col items-center justify-center gap-4 padding-4 h-[260px] flex-1"
+        className={`flex flex-col items-center justify-center gap-4 padding-4 h-[${PIE_HEIGHT}px] `}
       >
-        <div>
-          <Heading weight="light">Total Turbines</Heading>
-          <Text size="8" weight="bold" mb="4">
-            {data.turbines.length}
-          </Text>
-        </div>
+        <Heading weight="light">Total Turbines</Heading>
+        <Text size="8" weight="bold" mb="4">
+          {data.turbines.length}
+        </Text>
       </Card>
-      <Card variant="surface" style={{ height: 260, flex: 1, minWidth: 0 }}>
+      <Card
+        variant="surface"
+        style={{ height: PIE_HEIGHT, flex: 1, minWidth: 0 }}
+      >
         <ResponsiveContainer>
-          <PieChart>
+          <PieChart style={{ outline: "none" }}>
             <Pie
               data={pieChartData}
               dataKey="value"
@@ -65,7 +66,9 @@ export default function TurbineStatusPie() {
               isAnimationActive={true}
               cx="50%"
               cy="50%"
-              outerRadius={80}
+              stroke="0"
+              outerRadius={60}
+              innerRadius={40}
               label={({ name, percent }) =>
                 `${name} ${Math.round((percent ?? 0) * 100)}%`
               }
@@ -78,19 +81,17 @@ export default function TurbineStatusPie() {
 
       <Card
         variant="surface"
-        className="flex flex-col items-center justify-center gap-4 padding-4 h-[260px] flex-1"
+        className={`flex flex-col items-center justify-center gap-4 padding-4 h-[${PIE_HEIGHT}px] flex-1`}
       >
-        <div className="text-center">
-          <Heading weight="light">Total Output</Heading>
-          <Text size="8" weight="bold" mb="4">
-            {data.turbines.reduce(
-              (total: number, turbine: { powerOutput: number }) =>
-                total + turbine.powerOutput,
-              0,
-            )}{" "}
-            kW
-          </Text>
-        </div>
+        <Heading weight="light">Total Output</Heading>
+        <Text size="8" weight="bold" mb="4">
+          {data.turbines.reduce(
+            (total: number, turbine: { powerOutput: number }) =>
+              total + turbine.powerOutput,
+            0,
+          )}{" "}
+          kW
+        </Text>
       </Card>
     </Flex>
   );
